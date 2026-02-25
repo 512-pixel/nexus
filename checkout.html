@@ -128,21 +128,21 @@
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
-        <div class="step-content">
+        <div>
           <div class="step-title">COPY THE BTC ADDRESS</div>
           <div class="step-desc">Copy the address below or scan the QR code with your crypto wallet.</div>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <div class="step-content">
+        <div>
           <div class="step-title">SEND EXACT AMOUNT</div>
           <div class="step-desc">Send the exact BTC amount shown above. Do not send from an exchange wallet.</div>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <div class="step-content">
+        <div>
           <div class="step-title">RECEIVE YOUR LICENSE KEY</div>
           <div class="step-desc">After 1 blockchain confirmation (~10 min), your license key is automatically delivered.</div>
         </div>
@@ -210,11 +210,11 @@
 
   function copyAddress() {
     const addr = document.getElementById('btc-address').textContent;
-    navigator.clipboard.writeText(addr).then(() => {
+    navigator.clipboard.writeText(addr).then(function() {
       const btn = document.getElementById('copyBtn');
       btn.textContent = 'COPIED \u2713';
       btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+      setTimeout(function() { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
     });
   }
 
