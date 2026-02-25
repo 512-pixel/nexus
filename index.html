@@ -6,539 +6,244 @@
 <title>NEXUS — Black Ops 7 Cheat</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #050810;
-    --cyan: #00f5ff;
-    --cyan2: #00aacc;
-    --red: #ff2244;
-    --green: #00ff88;
-    --gold: #ffd700;
-    --glow: 0 0 20px rgba(0,245,255,0.5);
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: #e0e8ff; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; cursor: crosshair; }
-  body::before {
-    content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,245,255,0.012) 2px, rgba(0,245,255,0.012) 4px);
-    pointer-events: none; z-index: 9999;
-  }
-  .grid-bg {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-image: linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
-    background-size: 60px 60px; animation: gridMove 20s linear infinite; pointer-events: none; z-index: 0;
-  }
-  @keyframes gridMove { 0% { transform: translateY(0); } 100% { transform: translateY(60px); } }
-
-  /* HEADER */
-  header {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 0 40px; height: 70px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid rgba(0,245,255,0.15);
-    background: rgba(5,8,16,0.95); backdrop-filter: blur(10px);
-  }
-  .logo { font-family: 'Orbitron', monospace; font-weight: 900; font-size: 1.4rem; color: var(--cyan); text-shadow: var(--glow); letter-spacing: 4px; }
-  .logo span { color: var(--red); }
-  nav a {
-    color: rgba(224,232,255,0.6); text-decoration: none; font-size: 0.85rem;
-    letter-spacing: 2px; text-transform: uppercase; margin-left: 28px;
-    transition: color 0.2s; font-weight: 600;
-  }
-  nav a:hover, nav a.active { color: var(--cyan); }
-  nav a.shop-link {
-    color: var(--gold); border: 1px solid rgba(255,215,0,0.4);
-    padding: 6px 14px; background: rgba(255,215,0,0.05);
-    transition: all 0.2s;
-  }
-  nav a.shop-link:hover { background: rgba(255,215,0,0.12); box-shadow: 0 0 15px rgba(255,215,0,0.3); }
-  .status-dot { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; letter-spacing: 2px; color: var(--green); font-family: 'Share Tech Mono', monospace; }
-  .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; box-shadow: 0 0 10px var(--green); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-  /* PAGES */
-  .page { display: none; padding-top: 70px; }
-  .page.active { display: block; }
-
-  /* HERO */
-  .hero {
-    position: relative; z-index: 5; min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 40px;
-  }
-  .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; letter-spacing: 6px; color: var(--cyan2); margin-bottom: 20px; opacity: 0; animation: fadeUp 0.6s 0.2s forwards; }
-  .hero-title { font-family: 'Orbitron', monospace; font-size: clamp(2.5rem, 7vw, 6.5rem); font-weight: 900; line-height: 1.05; opacity: 0; animation: fadeUp 0.6s 0.4s forwards; }
-  .hero-title .line1 { color: #fff; }
-  .hero-title .line2 { color: var(--cyan); text-shadow: var(--glow), 0 0 80px rgba(0,245,255,0.3); }
-  .hero-sub { font-size: 1.1rem; color: rgba(224,232,255,0.5); margin-top: 20px; letter-spacing: 1px; max-width: 540px; opacity: 0; animation: fadeUp 0.6s 0.6s forwards; }
-  .hero-badges { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 40px; opacity: 0; animation: fadeUp 0.6s 0.8s forwards; }
-  .badge { padding: 6px 16px; border: 1px solid rgba(0,245,255,0.3); font-size: 0.7rem; letter-spacing: 3px; color: var(--cyan); font-family: 'Share Tech Mono', monospace; background: rgba(0,245,255,0.05); }
-  .badge.red { border-color: rgba(255,34,68,0.4); color: var(--red); background: rgba(255,34,68,0.05); }
-  .badge.green { border-color: rgba(0,255,136,0.3); color: var(--green); background: rgba(0,255,136,0.05); }
-  .badge.orange { border-color: rgba(255,160,50,0.4); color: #ffa032; background: rgba(255,160,50,0.05); }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(0,245,255,0.4); font-size: 0.65rem; letter-spacing: 3px; font-family: 'Share Tech Mono', monospace; animation: bounce 2s infinite; }
-  .scroll-hint::after { content: '▼'; font-size: 1rem; }
-  @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
-
-  /* SECTION WRAPPER */
-  .section-wrap { position: relative; z-index: 5; padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
-  .section-wrap.narrow { max-width: 800px; }
-  .section-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; letter-spacing: 8px; color: var(--cyan2); margin-bottom: 12px; }
-  .section-heading { font-family: 'Orbitron', monospace; font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 60px; }
-
-  /* FEATURES */
-  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; }
-  .feature-card { background: rgba(8,13,26,0.8); border: 1px solid rgba(0,245,255,0.1); padding: 30px; position: relative; overflow: hidden; transition: border-color 0.3s, transform 0.3s; }
-  .feature-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--cyan); transition: height 0.3s; }
-  .feature-card:hover { border-color: rgba(0,245,255,0.3); transform: translateY(-4px); }
-  .feature-card:hover::before { height: 100%; }
-  .feature-icon { font-size: 1.5rem; margin-bottom: 16px; display: block; }
-  .feature-name { font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700; color: var(--cyan); letter-spacing: 2px; margin-bottom: 10px; }
-  .feature-desc { font-size: 0.9rem; color: rgba(224,232,255,0.5); line-height: 1.6; }
-
-  /* COMPAT */
-  .compat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2px; }
-  .compat-card { background: rgba(8,13,26,0.8); border: 1px solid rgba(0,245,255,0.07); padding: 20px 24px; display: flex; align-items: center; gap: 14px; }
-  .compat-icon { font-size: 1.3rem; }
-  .compat-label { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; color: rgba(224,232,255,0.6); }
-  .compat-ok { margin-left: auto; color: var(--green); font-size: 0.7rem; font-family: 'Share Tech Mono', monospace; }
-
-  /* REDEEM */
-  #redeem-section { position: relative; z-index: 5; padding: 120px 40px; display: flex; flex-direction: column; align-items: center; }
-  .redeem-box { width: 100%; max-width: 560px; background: rgba(8,13,26,0.95); border: 1px solid rgba(0,245,255,0.25); padding: 50px 44px; position: relative; overflow: hidden; }
-  .redeem-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); background-size: 200% 100%; animation: shimmer 3s linear infinite; }
-  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-  .redeem-label { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 6px; color: var(--cyan2); margin-bottom: 6px; }
-  .redeem-title { font-family: 'Orbitron', monospace; font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-  .redeem-desc { color: rgba(224,232,255,0.4); font-size: 0.85rem; margin-bottom: 36px; line-height: 1.6; }
-  .input-wrap { position: relative; margin-bottom: 20px; }
-  .input-wrap label { display: block; font-size: 0.7rem; letter-spacing: 3px; color: rgba(0,245,255,0.6); margin-bottom: 8px; font-family: 'Share Tech Mono', monospace; }
-  .key-input { width: 100%; background: rgba(0,245,255,0.04); border: 1px solid rgba(0,245,255,0.2); color: var(--cyan); font-family: 'Share Tech Mono', monospace; font-size: 1.1rem; letter-spacing: 3px; padding: 16px 20px; outline: none; transition: border-color 0.3s, box-shadow 0.3s; text-transform: uppercase; }
-  .key-input:focus { border-color: var(--cyan); box-shadow: var(--glow); }
-  .key-input.error { border-color: var(--red); box-shadow: 0 0 20px rgba(255,34,68,0.3); animation: shake 0.4s; color: var(--red); }
-  .key-input.success { border-color: var(--green); box-shadow: 0 0 20px rgba(0,255,136,0.3); color: var(--green); }
-  @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
-  .redeem-btn { width: 100%; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); font-family: 'Orbitron', monospace; font-size: 0.85rem; letter-spacing: 4px; padding: 16px; cursor: pointer; text-transform: uppercase; transition: all 0.3s; position: relative; overflow: hidden; }
-  .redeem-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,245,255,0.15), transparent); transition: left 0.4s; }
-  .redeem-btn:hover::before { left: 100%; }
-  .redeem-btn:hover { background: rgba(0,245,255,0.1); box-shadow: var(--glow); transform: translateY(-2px); }
-  .msg { margin-top: 16px; font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; letter-spacing: 2px; min-height: 24px; }
-  .msg.err { color: var(--red); }
-  .msg.ok { color: var(--green); }
-  .download-panel { margin-top: 30px; padding: 24px; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,255,136,0.04); display: none; }
-  .download-panel.visible { display: block; animation: fadeIn 0.5s forwards; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  .dl-title { font-family: 'Orbitron', monospace; font-size: 0.75rem; letter-spacing: 3px; color: var(--green); margin-bottom: 14px; }
-  .dl-info { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: rgba(0,255,136,0.5); margin-bottom: 16px; letter-spacing: 1px; line-height: 1.8; }
-  .dl-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; padding: 16px; background: var(--green); color: #050810; font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700; letter-spacing: 3px; text-decoration: none; transition: all 0.3s; }
-  .dl-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,255,136,0.4); }
-  .dl-btn::before { content: '⬇'; font-size: 1rem; }
-
-  /* FAQ */
-  .faq-item { border-bottom: 1px solid rgba(0,245,255,0.08); padding: 24px 0; }
-  .faq-q { font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700; color: #fff; letter-spacing: 1px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-  .faq-q span { color: var(--cyan); font-size: 1.1rem; }
-  .faq-a { font-size: 0.9rem; color: rgba(224,232,255,0.45); line-height: 1.7; margin-top: 14px; max-height: 0; overflow: hidden; transition: max-height 0.4s; }
-  .faq-item.open .faq-a { max-height: 200px; }
-
-  /* ============================================
-     SHOP PAGE
-     ============================================ */
-  .shop-hero {
-    position: relative; z-index: 5;
-    padding: 80px 40px 40px;
-    text-align: center;
-  }
-  .shop-hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; letter-spacing: 8px; color: var(--gold); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s 0.1s forwards; }
-  .shop-hero-title { font-family: 'Orbitron', monospace; font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; color: #fff; opacity: 0; animation: fadeUp 0.6s 0.25s forwards; }
-  .shop-hero-title span { color: var(--gold); text-shadow: 0 0 30px rgba(255,215,0,0.5); }
-  .shop-hero-sub { font-size: 1rem; color: rgba(224,232,255,0.45); margin-top: 14px; letter-spacing: 1px; opacity: 0; animation: fadeUp 0.6s 0.4s forwards; }
-
-  .shop-grid {
-    position: relative; z-index: 5;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 2px;
-    max-width: 1100px;
-    margin: 60px auto 0;
-    padding: 0 40px 100px;
-  }
-
-  .plan-card {
-    background: rgba(8,13,26,0.9);
-    border: 1px solid rgba(0,245,255,0.12);
-    padding: 36px 28px 32px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s, border-color 0.3s;
-    display: flex; flex-direction: column;
-  }
-  .plan-card::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-    height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-    transform: scaleX(0); transition: transform 0.3s;
-  }
-  .plan-card:hover { transform: translateY(-8px); border-color: rgba(0,245,255,0.35); }
-  .plan-card:hover::after { transform: scaleX(1); }
-  .plan-card.featured {
-    border-color: rgba(255,215,0,0.4);
-    background: rgba(12,16,30,0.95);
-  }
-  .plan-card.featured::after { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
-  .plan-card.featured:hover { border-color: rgba(255,215,0,0.7); box-shadow: 0 0 40px rgba(255,215,0,0.1); }
-
-  .plan-badge {
-    position: absolute; top: -1px; right: 24px;
-    background: var(--gold); color: #050810;
-    font-family: 'Orbitron', monospace; font-size: 0.6rem; font-weight: 700;
-    letter-spacing: 2px; padding: 4px 12px;
-  }
-  .plan-duration {
-    font-family: 'Orbitron', monospace; font-size: 0.7rem;
-    letter-spacing: 4px; color: var(--cyan2); margin-bottom: 14px;
-  }
-  .plan-card.featured .plan-duration { color: var(--gold); }
-  .plan-name {
-    font-family: 'Orbitron', monospace; font-size: 1.15rem;
-    font-weight: 700; color: #fff; margin-bottom: 24px; letter-spacing: 1px;
-  }
-  .plan-price-wrap { margin-bottom: 28px; }
-  .plan-eur {
-    font-family: 'Orbitron', monospace; font-size: 2.8rem;
-    font-weight: 900; color: var(--cyan); line-height: 1;
-  }
-  .plan-card.featured .plan-eur { color: var(--gold); }
-  .plan-eur sup { font-size: 1.2rem; vertical-align: super; }
-  .plan-btc {
-    font-family: 'Share Tech Mono', monospace; font-size: 0.72rem;
-    color: rgba(224,232,255,0.35); margin-top: 8px; letter-spacing: 1px;
-  }
-  .plan-btc span { color: #f7931a; }
-
-  .plan-features { list-style: none; margin-bottom: 32px; flex: 1; }
-  .plan-features li {
-    font-size: 0.88rem; color: rgba(224,232,255,0.55);
-    padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .plan-features li::before { content: '✓'; color: var(--green); font-size: 0.8rem; flex-shrink: 0; }
-  .plan-features li.no::before { content: '✗'; color: rgba(255,255,255,0.2); }
-  .plan-features li.no { color: rgba(224,232,255,0.25); }
-
-  .buy-btn {
-    width: 100%; padding: 14px;
-    background: transparent;
-    border: 1px solid rgba(0,245,255,0.4);
-    color: var(--cyan);
-    font-family: 'Orbitron', monospace; font-size: 0.8rem;
-    letter-spacing: 3px; cursor: pointer; text-transform: uppercase;
-    transition: all 0.3s; position: relative; overflow: hidden;
-  }
-  .buy-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,245,255,0.12), transparent); transition: left 0.4s; }
-  .buy-btn:hover::before { left: 100%; }
-  .buy-btn:hover { background: rgba(0,245,255,0.1); box-shadow: 0 0 20px rgba(0,245,255,0.3); }
-  .plan-card.featured .buy-btn { border-color: rgba(255,215,0,0.5); color: var(--gold); }
-  .plan-card.featured .buy-btn::before { background: linear-gradient(90deg, transparent, rgba(255,215,0,0.1), transparent); }
-  .plan-card.featured .buy-btn:hover { background: rgba(255,215,0,0.08); box-shadow: 0 0 20px rgba(255,215,0,0.25); }
-
-  /* FOOTER */
-  footer { position: relative; z-index: 5; border-top: 1px solid rgba(0,245,255,0.08); padding: 30px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(5,8,16,0.9); }
-  footer .logo { font-size: 0.9rem; }
-  footer p { font-size: 0.7rem; color: rgba(224,232,255,0.2); letter-spacing: 2px; font-family: 'Share Tech Mono', monospace; }
-
-  /* CORNER */
-  .corner-deco { position: fixed; width: 60px; height: 60px; pointer-events: none; z-index: 100; opacity: 0.4; }
-  .corner-deco.tl { top: 80px; left: 20px; border-top: 1px solid var(--cyan); border-left: 1px solid var(--cyan); }
-  .corner-deco.br { bottom: 20px; right: 20px; border-bottom: 1px solid var(--cyan); border-right: 1px solid var(--cyan); }
-
-  /* GLITCH */
-  .glitch { position: relative; display: inline-block; }
-  .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; font-family: inherit; font-size: inherit; font-weight: inherit; }
-  .glitch::before { color: var(--red); animation: glitch1 5s infinite 1s; clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%); }
-  .glitch::after { color: var(--cyan); animation: glitch2 5s infinite 1s; clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%); }
-  @keyframes glitch1 { 0%, 90%, 100% { transform: none; opacity: 0; } 92% { transform: translateX(-4px); opacity: 0.8; } 94% { transform: translateX(4px); opacity: 0.8; } 96% { transform: none; opacity: 0; } }
-  @keyframes glitch2 { 0%, 90%, 100% { transform: none; opacity: 0; } 91% { transform: translateX(4px); opacity: 0.8; } 93% { transform: translateX(-4px); opacity: 0.8; } 95% { transform: none; opacity: 0; } }
-
-  @media (max-width: 768px) {
-    header { padding: 0 20px; }
-    nav a { margin-left: 16px; font-size: 0.75rem; }
-    .section-wrap, .shop-grid { padding-left: 20px; padding-right: 20px; }
-    footer { flex-direction: column; gap: 10px; text-align: center; }
-  }
-  @media (max-width: 500px) {
-    nav .hide-mobile { display: none; }
-  }
+  :root{--bg:#050810;--bg2:#080d1a;--cyan:#00f5ff;--cyan2:#00aacc;--red:#ff2244;--green:#00ff88;--glow:0 0 20px rgba(0,245,255,0.5)}
+  *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+  body{background:var(--bg);color:#e0e8ff;font-family:'Rajdhani',sans-serif;overflow-x:hidden;cursor:crosshair}
+  body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,245,255,.012) 2px,rgba(0,245,255,.012) 4px);pointer-events:none;z-index:9999}
+  .grid-bg{position:fixed;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(0,245,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.04) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite;pointer-events:none;z-index:0}
+  @keyframes gridMove{0%{transform:translateY(0)}100%{transform:translateY(60px)}}
+  header{position:relative;z-index:10;padding:0 40px;height:70px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,245,255,.15);background:rgba(5,8,16,.9);backdrop-filter:blur(10px)}
+  .logo{font-family:'Orbitron',monospace;font-weight:900;font-size:1.4rem;color:var(--cyan);text-shadow:var(--glow);letter-spacing:4px}
+  .logo span{color:var(--red)}
+  nav a{color:rgba(224,232,255,.6);text-decoration:none;font-size:.85rem;letter-spacing:2px;text-transform:uppercase;margin-left:30px;transition:color .2s;font-weight:600}
+  nav a:hover{color:var(--cyan)}
+  .status-dot{display:flex;align-items:center;gap:8px;font-size:.75rem;letter-spacing:2px;color:var(--green);font-family:'Share Tech Mono',monospace}
+  .dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 10px var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero{position:relative;z-index:5;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px}
+  .hero-tag{font-family:'Share Tech Mono',monospace;font-size:.75rem;letter-spacing:6px;color:var(--cyan2);margin-bottom:20px;opacity:0;animation:fadeUp .6s .2s forwards}
+  .hero-title{font-family:'Orbitron',monospace;font-size:clamp(2.5rem,7vw,6.5rem);font-weight:900;line-height:1.05;letter-spacing:-2px;opacity:0;animation:fadeUp .6s .4s forwards}
+  .hero-title .l1{color:#fff}.hero-title .l2{color:var(--cyan);text-shadow:var(--glow),0 0 80px rgba(0,245,255,.3)}
+  .hero-sub{font-size:1.1rem;color:rgba(224,232,255,.5);margin-top:20px;letter-spacing:1px;max-width:540px;opacity:0;animation:fadeUp .6s .6s forwards}
+  .hero-badges{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:40px;opacity:0;animation:fadeUp .6s .8s forwards}
+  .badge{padding:6px 16px;border:1px solid rgba(0,245,255,.3);font-size:.7rem;letter-spacing:3px;color:var(--cyan);font-family:'Share Tech Mono',monospace;background:rgba(0,245,255,.05)}
+  .badge.red{border-color:rgba(255,34,68,.4);color:var(--red);background:rgba(255,34,68,.05)}
+  .badge.green{border-color:rgba(0,255,136,.3);color:var(--green);background:rgba(0,255,136,.05)}
+  .badge.orange{border-color:rgba(255,160,50,.4);color:#ffa032;background:rgba(255,160,50,.05)}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  .scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(0,245,255,.4);font-size:.65rem;letter-spacing:3px;font-family:'Share Tech Mono',monospace;animation:bounce 2s infinite}
+  .scroll-hint::after{content:'▼';font-size:1rem}
+  @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+  .sw{position:relative;z-index:5;padding:100px 40px;max-width:1100px;margin:0 auto}
+  .sw.narrow{max-width:800px}
+  .stag{font-family:'Share Tech Mono',monospace;font-size:.7rem;letter-spacing:8px;color:var(--cyan2);margin-bottom:12px}
+  .sh{font-family:'Orbitron',monospace;font-size:2rem;font-weight:700;color:#fff;margin-bottom:60px}
+  .fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px}
+  .fc{background:rgba(8,13,26,.8);border:1px solid rgba(0,245,255,.1);padding:30px;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+  .fc::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--cyan);transition:height .3s}
+  .fc:hover{border-color:rgba(0,245,255,.3);transform:translateY(-4px)}.fc:hover::before{height:100%}
+  .fi{font-size:1.5rem;margin-bottom:16px;display:block}
+  .fn{font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:var(--cyan);letter-spacing:2px;margin-bottom:10px}
+  .fd{font-size:.9rem;color:rgba(224,232,255,.5);line-height:1.6}
+  .cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px}
+  .cc{background:rgba(8,13,26,.8);border:1px solid rgba(0,245,255,.07);padding:20px 24px;display:flex;align-items:center;gap:14px}
+  .ci{font-size:1.3rem}.cl{font-family:'Share Tech Mono',monospace;font-size:.75rem;letter-spacing:2px;color:rgba(224,232,255,.6)}
+  .co{margin-left:auto;color:var(--green);font-size:.7rem;font-family:'Share Tech Mono',monospace}
+  #redeem{position:relative;z-index:5;padding:120px 40px;display:flex;flex-direction:column;align-items:center}
+  .rb{width:100%;max-width:560px;background:rgba(8,13,26,.95);border:1px solid rgba(0,245,255,.25);padding:50px 44px;position:relative;overflow:hidden}
+  .rb::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);background-size:200% 100%;animation:shimmer 3s linear infinite}
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  .rl{font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:6px;color:var(--cyan2);margin-bottom:6px}
+  .rt{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:8px}
+  .rd{color:rgba(224,232,255,.4);font-size:.85rem;margin-bottom:36px;line-height:1.6}
+  .iw{position:relative;margin-bottom:20px}
+  .iw label{display:block;font-size:.7rem;letter-spacing:3px;color:rgba(0,245,255,.6);margin-bottom:8px;font-family:'Share Tech Mono',monospace}
+  .ki{width:100%;background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.2);color:var(--cyan);font-family:'Share Tech Mono',monospace;font-size:1.1rem;letter-spacing:3px;padding:16px 20px;outline:none;transition:border-color .3s,box-shadow .3s;text-transform:uppercase}
+  .ki:focus{border-color:var(--cyan);box-shadow:var(--glow)}
+  .ki.err{border-color:var(--red);box-shadow:0 0 20px rgba(255,34,68,.3);animation:shake .4s;color:var(--red)}
+  .ki.ok{border-color:var(--green);box-shadow:0 0 20px rgba(0,255,136,.3);color:var(--green)}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+  .rbtn{width:100%;background:transparent;border:1px solid var(--cyan);color:var(--cyan);font-family:'Orbitron',monospace;font-size:.85rem;letter-spacing:4px;padding:16px;cursor:pointer;text-transform:uppercase;transition:all .3s;position:relative;overflow:hidden}
+  .rbtn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,245,255,.15),transparent);transition:left .4s}
+  .rbtn:hover::before{left:100%}.rbtn:hover{background:rgba(0,245,255,.1);box-shadow:var(--glow);transform:translateY(-2px)}.rbtn:active{transform:translateY(0)}
+  .msg{margin-top:16px;font-family:'Share Tech Mono',monospace;font-size:.8rem;letter-spacing:2px;min-height:24px;transition:all .3s}
+  .msg.e{color:var(--red)}.msg.s{color:var(--green)}
+  .dp{margin-top:30px;padding:24px;border:1px solid rgba(0,255,136,.3);background:rgba(0,255,136,.04);display:none}
+  .dp.v{display:block;animation:fadeIn .5s forwards}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .dt{font-family:'Orbitron',monospace;font-size:.75rem;letter-spacing:3px;color:var(--green);margin-bottom:14px}
+  .di{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:rgba(0,255,136,.5);margin-bottom:16px;letter-spacing:1px;line-height:1.8}
+  .db{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:16px;background:var(--green);color:#050810;font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;letter-spacing:3px;text-decoration:none;transition:all .3s}
+  .db:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,255,136,.4)}.db::before{content:'⬇';font-size:1rem}
+  .faq-item{border-bottom:1px solid rgba(0,245,255,.08);padding:24px 0}
+  .faq-q{font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;color:#fff;letter-spacing:1px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+  .faq-q span{color:var(--cyan);font-size:1.1rem}
+  .faq-a{font-size:.9rem;color:rgba(224,232,255,.45);line-height:1.7;margin-top:14px;max-height:0;overflow:hidden;transition:max-height .4s}
+  .faq-item.open .faq-a{max-height:200px}
+  footer{position:relative;z-index:5;border-top:1px solid rgba(0,245,255,.08);padding:30px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(5,8,16,.9)}
+  footer .logo{font-size:.9rem}footer p{font-size:.7rem;color:rgba(224,232,255,.2);letter-spacing:2px;font-family:'Share Tech Mono',monospace}
+  .cd{position:fixed;width:60px;height:60px;pointer-events:none;z-index:100;opacity:.4}
+  .cd.tl{top:80px;left:20px;border-top:1px solid var(--cyan);border-left:1px solid var(--cyan)}
+  .cd.br{bottom:20px;right:20px;border-bottom:1px solid var(--cyan);border-right:1px solid var(--cyan)}
+  .glitch{position:relative;display:inline-block}
+  .glitch::before,.glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;font-family:inherit;font-size:inherit;font-weight:inherit}
+  .glitch::before{color:var(--red);animation:g1 5s infinite 1s;clip-path:polygon(0 0,100% 0,100% 35%,0 35%)}
+  .glitch::after{color:var(--cyan);animation:g2 5s infinite 1s;clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%)}
+  @keyframes g1{0%,90%,100%{transform:none;opacity:0}92%{transform:translateX(-4px);opacity:.8}94%{transform:translateX(4px);opacity:.8}96%{transform:none;opacity:0}}
+  @keyframes g2{0%,90%,100%{transform:none;opacity:0}91%{transform:translateX(4px);opacity:.8}93%{transform:translateX(-4px);opacity:.8}95%{transform:none;opacity:0}}
+  @media(max-width:600px){header{padding:0 20px}nav{display:none}.hero-title{font-size:2.4rem}.sw{padding:60px 20px}.rb{padding:30px 20px}footer{flex-direction:column;gap:10px;text-align:center}}
 </style>
 </head>
 <body>
-
 <div class="grid-bg"></div>
-<div class="corner-deco tl"></div>
-<div class="corner-deco br"></div>
+<div class="cd tl"></div>
+<div class="cd br"></div>
 
-<!-- HEADER -->
 <header>
   <div class="logo">NEX<span>US</span></div>
   <nav>
-    <a href="#" class="hide-mobile" onclick="showPage('home');return false;">Home</a>
-    <a href="#" class="hide-mobile" onclick="showPage('home');scrollTo('#features');return false;">Features</a>
-    <a href="#" class="hide-mobile" onclick="showPage('home');scrollTo('#redeem-section');return false;">Download</a>
-    <a href="#" class="shop-link" onclick="showPage('shop');return false;">🛒 Shop</a>
+    <a href="#features">Features</a>
+    <a href="#compat">Compatibility</a>
+    <a href="#faq">FAQ</a>
+    <a href="#redeem">Download</a>
   </nav>
   <div class="status-dot"><div class="dot"></div>UNDETECTED</div>
 </header>
 
-<!-- ========== HOME PAGE ========== -->
-<div id="page-home" class="page active">
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-tag">// BLACK OPS 7 — BUILD 3.1.4 — UPDATED TODAY</div>
-    <h1 class="hero-title">
-      <div class="line1">DOMINATE</div>
-      <div class="line2 glitch" data-text="BLACK OPS 7">BLACK OPS 7</div>
-    </h1>
-    <p class="hero-sub">Premium undetected cheat for Black Ops 7. Full-featured, auto-updated, streamproof. Built for winners.</p>
-    <div class="hero-badges">
-      <div class="badge green">✓ UNDETECTED</div>
-      <div class="badge">AUTO-UPDATE</div>
-      <div class="badge red">BO7 READY</div>
-      <div class="badge orange">RICOCHET BYPASS</div>
-    </div>
-    <div class="scroll-hint">SCROLL DOWN</div>
-  </section>
-
-  <!-- FEATURES -->
-  <div class="section-wrap" id="features">
-    <div class="section-tag">// CAPABILITIES</div>
-    <h2 class="section-heading">FEATURE SET</h2>
-    <div class="features-grid">
-      <div class="feature-card"><span class="feature-icon">🎯</span><div class="feature-name">AIMBOT</div><p class="feature-desc">Surgical precision with full movement prediction. Adjustable FOV, smoothness, target bone selection, and visibility check.</p></div>
-      <div class="feature-card"><span class="feature-icon">📡</span><div class="feature-name">ESP / WALLHACK</div><p class="feature-desc">Full enemy visibility through walls — boxes, skeletons, health bars, distance, weapon info, and item ESP.</p></div>
-      <div class="feature-card"><span class="feature-icon">⚡</span><div class="feature-name">NO RECOIL</div><p class="feature-desc">Total recoil compensation with per-weapon profiles. Perfect accuracy at any range, any fire rate.</p></div>
-      <div class="feature-card"><span class="feature-icon">🛡️</span><div class="feature-name">RICOCHET BYPASS</div><p class="feature-desc">Active bypass of BO7's Ricochet Anti-Cheat. Kernel-level protection with silent updates within 24h of every patch.</p></div>
-      <div class="feature-card"><span class="feature-icon">🗺️</span><div class="feature-name">RADAR HACK</div><p class="feature-desc">Real-time minimap showing all enemies regardless of UAV or stealth perks. Always know where they are.</p></div>
-      <div class="feature-card"><span class="feature-icon">🔒</span><div class="feature-name">STREAMPROOF</div><p class="feature-desc">Invisible on OBS, Discord, Twitch Studio, and all capture tools. Stream and record with zero risk.</p></div>
-      <div class="feature-card"><span class="feature-icon">🎨</span><div class="feature-name">VISUALS & CHAMS</div><p class="feature-desc">Full visual customization — colored chams, glow, custom crosshair, FOV changer, and night mode.</p></div>
-      <div class="feature-card"><span class="feature-icon">🧠</span><div class="feature-name">TRIGGERBOT</div><p class="feature-desc">Auto-fires the moment your crosshair overlaps a target. Configurable delay for a humanized look.</p></div>
-      <div class="feature-card"><span class="feature-icon">🖥️</span><div class="feature-name">IN-GAME MENU</div><p class="feature-desc">Clean overlay menu with hotkey support. Toggle every feature mid-game with zero performance impact.</p></div>
-    </div>
+<section class="hero">
+  <div class="hero-tag">// BLACK OPS 7 — BUILD 3.1.4 — UPDATED TODAY</div>
+  <h1 class="hero-title">
+    <div class="l1">DOMINATE</div>
+    <div class="l2 glitch" data-text="BLACK OPS 7">BLACK OPS 7</div>
+  </h1>
+  <p class="hero-sub">Premium undetected cheat for Black Ops 7. Full-featured, auto-updated, streamproof. Built for winners.</p>
+  <div class="hero-badges">
+    <div class="badge green">✓ UNDETECTED</div>
+    <div class="badge">AUTO-UPDATE</div>
+    <div class="badge red">BO7 READY</div>
+    <div class="badge orange">RICOCHET BYPASS</div>
   </div>
+  <div class="scroll-hint">SCROLL DOWN</div>
+</section>
 
-  <!-- COMPAT -->
-  <div class="section-wrap" style="padding-top:0;">
-    <div class="section-tag">// SYSTEM REQUIREMENTS</div>
-    <h2 class="section-heading">COMPATIBILITY</h2>
-    <div class="compat-grid">
-      <div class="compat-card"><span class="compat-icon">🪟</span><span class="compat-label">WINDOWS 10 / 11</span><span class="compat-ok">✓ OK</span></div>
-      <div class="compat-card"><span class="compat-icon">🎮</span><span class="compat-label">CALL OF DUTY: BO7</span><span class="compat-ok">✓ OK</span></div>
-      <div class="compat-card"><span class="compat-icon">🛡️</span><span class="compat-label">RICOCHET AC</span><span class="compat-ok">✓ BYPASSED</span></div>
-      <div class="compat-card"><span class="compat-icon">📺</span><span class="compat-label">BATTLENET / STEAM</span><span class="compat-ok">✓ OK</span></div>
-      <div class="compat-card"><span class="compat-icon">⚙️</span><span class="compat-label">CPU: i5 / RYZEN 5+</span><span class="compat-ok">✓ OK</span></div>
-      <div class="compat-card"><span class="compat-icon">💾</span><span class="compat-label">RAM: 8GB+</span><span class="compat-ok">✓ OK</span></div>
-    </div>
+<div class="sw" id="features">
+  <div class="stag">// CAPABILITIES</div>
+  <h2 class="sh">FEATURE SET</h2>
+  <div class="fg">
+    <div class="fc"><span class="fi">🎯</span><div class="fn">AIMBOT</div><p class="fd">Surgical precision with full movement prediction. Adjustable FOV, smoothness, target bone selection, and visibility check.</p></div>
+    <div class="fc"><span class="fi">📡</span><div class="fn">ESP / WALLHACK</div><p class="fd">Full enemy visibility through walls — boxes, skeletons, health bars, distance, weapon info, and item ESP.</p></div>
+    <div class="fc"><span class="fi">⚡</span><div class="fn">NO RECOIL</div><p class="fd">Total recoil compensation with per-weapon profiles. Perfect accuracy at any range, any fire rate.</p></div>
+    <div class="fc"><span class="fi">🛡️</span><div class="fn">RICOCHET BYPASS</div><p class="fd">Active bypass of BO7's Ricochet Anti-Cheat. Kernel-level protection with silent updates within 24h of every patch.</p></div>
+    <div class="fc"><span class="fi">🗺️</span><div class="fn">RADAR HACK</div><p class="fd">Real-time minimap showing all enemies regardless of UAV or stealth perks. Always know where they are.</p></div>
+    <div class="fc"><span class="fi">🔒</span><div class="fn">STREAMPROOF</div><p class="fd">Invisible on OBS, Discord, Twitch Studio, and all capture tools. Stream and record with zero risk.</p></div>
+    <div class="fc"><span class="fi">🎨</span><div class="fn">VISUALS & CHAMS</div><p class="fd">Full visual customization — colored chams, glow, custom crosshair, FOV changer, and night mode.</p></div>
+    <div class="fc"><span class="fi">🧠</span><div class="fn">TRIGGERBOT</div><p class="fd">Auto-fires the moment your crosshair overlaps a target. Configurable delay for a humanized look.</p></div>
+    <div class="fc"><span class="fi">🖥️</span><div class="fn">IN-GAME MENU</div><p class="fd">Clean overlay menu with hotkey support. Toggle every feature mid-game with zero performance impact.</p></div>
   </div>
-
-  <!-- REDEEM -->
-  <section id="redeem-section">
-    <div class="redeem-box">
-      <div class="redeem-label">// LICENSE SYSTEM</div>
-      <h2 class="redeem-title">REDEEM YOUR KEY</h2>
-      <p class="redeem-desc">Enter your license key below to unlock the download. Keys are case-insensitive. Format: XXXXXX-XXXXXX</p>
-      <div class="input-wrap">
-        <label>LICENSE KEY</label>
-        <input type="text" class="key-input" id="keyInput" placeholder="XXXXXX-XXXXXX" spellcheck="false" autocomplete="off">
-      </div>
-      <button class="redeem-btn" onclick="redeemKey()">UNLOCK ACCESS</button>
-      <div class="msg" id="msg"></div>
-      <div class="download-panel" id="dlPanel">
-        <div class="dl-title">✓ ACCESS GRANTED — DOWNLOAD READY</div>
-        <div class="dl-info">FILE: nexus_bo7_v3.1.4.exe<br>SIZE: ~4.2 MB &nbsp;|&nbsp; BUILD: 2025.06.14<br>STATUS: UNDETECTED ✓</div>
-        <a href="nexus_bo7_v3.1.4.exe" class="dl-btn" download>DOWNLOAD NEXUS v3.1.4</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <div class="section-wrap narrow" style="padding-top:0;">
-    <div class="section-tag">// SUPPORT</div>
-    <h2 class="section-heading">FAQ</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Is this safe to use on my main account? <span>+</span></div>
-      <div class="faq-a">Nexus uses a kernel-level bypass and runs fully in memory. It is currently undetected by Ricochet. However, no cheat is 100% risk-free — use at your own discretion. We recommend a secondary account.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">How fast are updates after CoD patches? <span>+</span></div>
-      <div class="faq-a">We push updates within 24 hours of any Call of Duty patch. The loader handles updates automatically — you don't need to re-download anything manually.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Does it work on consoles? <span>+</span></div>
-      <div class="faq-a">Nexus is a Windows-only PC cheat. It does not support PlayStation or Xbox. Minimum OS: Windows 10 64-bit.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">Will my antivirus flag the file? <span>+</span></div>
-      <div class="faq-a">Most antivirus software will flag cheat loaders as suspicious due to memory injection techniques. This is a false positive. Disable your AV or add an exception before running Nexus.</div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="logo">NEX<span>US</span></div>
-    <p>© 2025 NEXUS — FOR EDUCATIONAL PURPOSES ONLY</p>
-    <p>v3.1.4 — BO7 BUILD</p>
-  </footer>
 </div>
 
-<!-- ========== SHOP PAGE ========== -->
-<div id="page-shop" class="page">
-  <div class="shop-hero">
-    <div class="shop-hero-tag">// NEXUS STORE — SECURE BTC PAYMENTS</div>
-    <h1 class="shop-hero-title">GET YOUR <span>LICENSE</span></h1>
-    <p class="shop-hero-sub">Choose your plan. Pay anonymously in Bitcoin. Receive your key instantly.</p>
+<div class="sw" id="compat" style="padding-top:0">
+  <div class="stag">// SYSTEM REQUIREMENTS</div>
+  <h2 class="sh">COMPATIBILITY</h2>
+  <div class="cg">
+    <div class="cc"><span class="ci">🪟</span><span class="cl">WINDOWS 10 / 11</span><span class="co">✓ OK</span></div>
+    <div class="cc"><span class="ci">🎮</span><span class="cl">CALL OF DUTY: BO7</span><span class="co">✓ OK</span></div>
+    <div class="cc"><span class="ci">🛡️</span><span class="cl">RICOCHET AC</span><span class="co">✓ BYPASSED</span></div>
+    <div class="cc"><span class="ci">📺</span><span class="cl">BATTLENET / STEAM</span><span class="co">✓ OK</span></div>
+    <div class="cc"><span class="ci">⚙️</span><span class="cl">CPU: i5 / RYZEN 5+</span><span class="co">✓ OK</span></div>
+    <div class="cc"><span class="ci">💾</span><span class="cl">RAM: 8GB+</span><span class="co">✓ OK</span></div>
   </div>
-
-  <div class="shop-grid">
-
-    <!-- PLAN 1: 3 Days -->
-    <div class="plan-card" onclick="goCheckout('3day', 7, '3-Day License', '0.00012596')">
-      <div class="plan-duration">// 3 DAYS</div>
-      <div class="plan-name">Starter License</div>
-      <div class="plan-price-wrap">
-        <div class="plan-eur"><sup>€</sup>7</div>
-        <div class="plan-btc">≈ <span>0.00012596 BTC</span> <span style="color:rgba(255,255,255,0.2)">/ at current rate</span></div>
-      </div>
-      <ul class="plan-features">
-        <li>All features unlocked</li>
-        <li>Aimbot + ESP + No Recoil</li>
-        <li>Ricochet bypass</li>
-        <li>Auto-updates</li>
-        <li class="no">Priority support</li>
-        <li class="no">Lifetime updates</li>
-      </ul>
-      <button class="buy-btn">BUY NOW →</button>
-    </div>
-
-    <!-- PLAN 2: 12 Days -->
-    <div class="plan-card" onclick="goCheckout('12day', 18, '12-Day License', '0.00032388')">
-      <div class="plan-duration">// 12 DAYS</div>
-      <div class="plan-name">Standard License</div>
-      <div class="plan-price-wrap">
-        <div class="plan-eur"><sup>€</sup>18</div>
-        <div class="plan-btc">≈ <span>0.00032388 BTC</span> <span style="color:rgba(255,255,255,0.2)">/ at current rate</span></div>
-      </div>
-      <ul class="plan-features">
-        <li>All features unlocked</li>
-        <li>Aimbot + ESP + No Recoil</li>
-        <li>Ricochet bypass</li>
-        <li>Auto-updates</li>
-        <li>Priority support</li>
-        <li class="no">Lifetime updates</li>
-      </ul>
-      <button class="buy-btn">BUY NOW →</button>
-    </div>
-
-    <!-- PLAN 3: 1 Month — FEATURED -->
-    <div class="plan-card featured" onclick="goCheckout('1month', 30, '1-Month License', '0.00053979')">
-      <div class="plan-badge">BEST VALUE</div>
-      <div class="plan-duration">// 30 DAYS</div>
-      <div class="plan-name">Pro License</div>
-      <div class="plan-price-wrap">
-        <div class="plan-eur"><sup>€</sup>30</div>
-        <div class="plan-btc">≈ <span>0.00053979 BTC</span> <span style="color:rgba(255,255,255,0.2)">/ at current rate</span></div>
-      </div>
-      <ul class="plan-features">
-        <li>All features unlocked</li>
-        <li>Aimbot + ESP + No Recoil</li>
-        <li>Ricochet bypass</li>
-        <li>Auto-updates</li>
-        <li>Priority support</li>
-        <li class="no">Lifetime updates</li>
-      </ul>
-      <button class="buy-btn">BUY NOW →</button>
-    </div>
-
-    <!-- PLAN 4: Lifetime -->
-    <div class="plan-card" onclick="goCheckout('lifetime', 100, 'Lifetime Access', '0.00179931')">
-      <div class="plan-duration">// FOREVER</div>
-      <div class="plan-name">Lifetime Access</div>
-      <div class="plan-price-wrap">
-        <div class="plan-eur"><sup>€</sup>100</div>
-        <div class="plan-btc">≈ <span>0.00179931 BTC</span> <span style="color:rgba(255,255,255,0.2)">/ at current rate</span></div>
-      </div>
-      <ul class="plan-features">
-        <li>All features unlocked</li>
-        <li>Aimbot + ESP + No Recoil</li>
-        <li>Ricochet bypass</li>
-        <li>Auto-updates forever</li>
-        <li>Priority support</li>
-        <li>Lifetime updates ∞</li>
-      </ul>
-      <button class="buy-btn">BUY NOW →</button>
-    </div>
-
-  </div>
-
-  <footer>
-    <div class="logo">NEX<span>US</span></div>
-    <p>© 2025 NEXUS — PAYMENTS PROCESSED ANONYMOUSLY VIA BTC</p>
-    <p>v3.1.4 — BO7 BUILD</p>
-  </footer>
 </div>
+
+<section id="redeem">
+  <div class="rb">
+    <div class="rl">// LICENSE SYSTEM</div>
+    <h2 class="rt">REDEEM YOUR KEY</h2>
+    <p class="rd">Enter your license key below to unlock the download. Keys are case-insensitive. Format: XXXXXX-XXXXXX</p>
+    <div class="iw">
+      <label>LICENSE KEY</label>
+      <input type="text" class="ki" id="keyInput" placeholder="XXXXXX-XXXXXX" spellcheck="false" autocomplete="off">
+    </div>
+    <button class="rbtn" onclick="redeemKey()">UNLOCK ACCESS</button>
+    <div class="msg" id="msg"></div>
+    <div class="dp" id="dlPanel">
+      <div class="dt">✓ ACCESS GRANTED — DOWNLOAD READY</div>
+      <div class="di">FILE: nexus_bo7_v3.1.4.exe<br>SIZE: ~4.2 MB &nbsp;|&nbsp; BUILD: 2025.06.14<br>STATUS: UNDETECTED ✓</div>
+      <a href="nexus_bo7_v3.1.4.exe" class="db" download>DOWNLOAD NEXUS v3.1.4</a>
+    </div>
+  </div>
+</section>
+
+<div class="sw narrow" id="faq" style="padding-top:0">
+  <div class="stag">// SUPPORT</div>
+  <h2 class="sh">FAQ</h2>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Is this safe to use on my main account? <span>+</span></div>
+    <div class="faq-a">Nexus uses a kernel-level bypass and runs fully in memory. It is currently undetected by Ricochet. However, no cheat is 100% risk-free — use at your own discretion. We recommend a secondary account.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">How fast are updates after CoD patches? <span>+</span></div>
+    <div class="faq-a">We push updates within 24 hours of any Call of Duty patch. The loader handles updates automatically — you don't need to re-download anything manually.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Does it work on consoles? <span>+</span></div>
+    <div class="faq-a">Nexus is a Windows-only PC cheat. It does not support PlayStation or Xbox. Minimum OS: Windows 10 64-bit.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)">Will my antivirus flag the file? <span>+</span></div>
+    <div class="faq-a">Most antivirus software will flag cheat loaders as suspicious due to memory injection techniques. This is a false positive. Disable your AV or add an exception before running Nexus.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo">NEX<span>US</span></div>
+  <p>© 2025 NEXUS — FOR EDUCATIONAL PURPOSES ONLY</p>
+  <p>v3.1.4 — BO7 BUILD</p>
+</footer>
 
 <script>
   const VALID_KEY = '186TU26G-T97YT';
-
-  function showPage(name) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
-    window.scrollTo(0, 0);
-  }
-
-  function scrollTo(id) {
-    setTimeout(() => {
-      const el = document.querySelector(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 50);
-  }
 
   function redeemKey() {
     const input = document.getElementById('keyInput');
     const msg = document.getElementById('msg');
     const dlPanel = document.getElementById('dlPanel');
     const val = input.value.trim().toUpperCase();
-    input.classList.remove('error', 'success');
-    dlPanel.classList.remove('visible');
-    if (!val) { msg.textContent = '> ERROR: PLEASE ENTER A LICENSE KEY'; msg.className = 'msg err'; return; }
+
+    input.classList.remove('err', 'ok');
+    dlPanel.classList.remove('v');
+
+    if (!val) {
+      msg.textContent = '> ERROR: PLEASE ENTER A LICENSE KEY';
+      msg.className = 'msg e';
+      return;
+    }
+
     if (val === VALID_KEY) {
-      input.classList.add('success');
+      input.classList.add('ok');
       msg.textContent = '> ACCESS GRANTED. WELCOME, OPERATOR.';
-      msg.className = 'msg ok';
-      setTimeout(() => dlPanel.classList.add('visible'), 400);
+      msg.className = 'msg s';
+      setTimeout(function() { dlPanel.classList.add('v'); }, 400);
     } else {
-      input.classList.add('error');
+      input.classList.add('err');
       msg.textContent = '> INVALID KEY. ACCESS DENIED.';
-      msg.className = 'msg err';
-      setTimeout(() => input.classList.remove('error'), 1000);
+      msg.className = 'msg e';
+      setTimeout(function() { input.classList.remove('err'); }, 1000);
     }
   }
 
-  document.getElementById('keyInput').addEventListener('keydown', e => { if (e.key === 'Enter') redeemKey(); });
-  document.getElementById('keyInput').addEventListener('input', e => {
-    let val = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
-    if (val.length > 6) val = val.slice(0, 6) + '-' + val.slice(6, 12);
-    e.target.value = val.toUpperCase();
+  document.getElementById('keyInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') redeemKey();
+  });
+
+  document.getElementById('keyInput').addEventListener('input', function(e) {
+    e.target.value = e.target.value.toUpperCase();
   });
 
   function toggleFaq(el) {
-    const item = el.parentElement;
+    var item = el.parentElement;
     item.classList.toggle('open');
     el.querySelector('span').textContent = item.classList.contains('open') ? '−' : '+';
-  }
-
-  function goCheckout(planId, eur, planName, btc) {
-    const params = new URLSearchParams({ plan: planId, eur, name: planName, btc });
-    window.location.href = 'checkout.html?' + params.toString();
   }
 </script>
 </body>
