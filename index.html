@@ -109,28 +109,7 @@
   .plan-btn:hover{background:rgba(0,245,255,.1);box-shadow:var(--glow)}
   .featured-btn{background:var(--cyan) !important;color:#050810 !important;border-color:var(--cyan) !important;font-weight:700}
   .featured-btn:hover{box-shadow:0 0 30px rgba(0,245,255,.5) !important;transform:translateY(-2px)}
-  .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:1000;display:none;opacity:0;transition:opacity .3s}
-  .modal-overlay.v{display:block;opacity:1}
-  .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-60%);width:90%;max-width:520px;max-height:90vh;overflow-y:auto;background:#080d1a;border:1px solid rgba(0,245,255,.3);z-index:1001;padding:36px;display:none;opacity:0;transition:opacity .3s,transform .3s}
-  .modal.v{display:block;opacity:1;transform:translate(-50%,-50%)}
-  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-  .modal-label{font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:6px;color:var(--cyan2)}
-  .modal-close{background:none;border:none;color:rgba(224,232,255,.4);font-size:1.2rem;cursor:pointer;transition:color .2s;padding:4px 8px}
-  .modal-close:hover{color:var(--red)}
-  .modal-plan{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:700;color:var(--cyan);margin-bottom:28px;text-shadow:var(--glow)}
-  .modal-body{}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .form-group{margin-bottom:18px}
-  .form-group label{display:block;font-family:'Share Tech Mono',monospace;font-size:.65rem;letter-spacing:3px;color:rgba(0,245,255,.6);margin-bottom:7px}
-  .form-input{width:100%;background:rgba(0,245,255,.04);border:1px solid rgba(0,245,255,.15);color:#e0e8ff;font-family:'Share Tech Mono',monospace;font-size:.9rem;letter-spacing:1px;padding:12px 14px;outline:none;transition:border-color .3s}
-  .form-input:focus{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,245,255,.2)}
-  .form-input::placeholder{color:rgba(224,232,255,.2)}
-  .secure-note{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:rgba(0,255,136,.5);margin-bottom:20px;letter-spacing:1px}
-  .checkout-btn{width:100%;background:var(--cyan);color:#050810;border:none;font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;letter-spacing:4px;padding:16px;cursor:pointer;transition:all .3s;text-transform:uppercase}
-  .checkout-btn:hover{box-shadow:0 0 30px rgba(0,245,255,.5);transform:translateY(-2px)}
-  .checkout-msg{margin-top:14px;font-family:'Share Tech Mono',monospace;font-size:.75rem;letter-spacing:2px;min-height:20px;text-align:center}
-  .checkout-msg.ok{color:var(--green)}.checkout-msg.e{color:var(--red)}
-  @media(max-width:500px){.form-row{grid-template-columns:1fr}.modal{padding:24px}}
+
 </style>
 </head>
 <body>
@@ -251,7 +230,7 @@
         <li class="dim">✗ Triggerbot</li>
         <li class="dim">✗ Streamproof</li>
       </ul>
-      <button class="plan-btn" onclick="openCheckout('Day Pass','$5')">GET ACCESS</button>
+      <button class="plan-btn" onclick="goCheckout('Day Pass','5','0.00009')">GET ACCESS</button>
     </div>
     <div class="plan-card featured">
       <div class="plan-tag">MOST POPULAR</div>
@@ -265,7 +244,7 @@
         <li>✓ Triggerbot</li>
         <li>✓ Streamproof</li>
       </ul>
-      <button class="plan-btn featured-btn" onclick="openCheckout('Pro Monthly','$25')">GET ACCESS</button>
+      <button class="plan-btn featured-btn" onclick="goCheckout('Pro Monthly','25','0.00045')">GET ACCESS</button>
     </div>
     <div class="plan-card">
       <div class="plan-badge">LIFETIME</div>
@@ -278,55 +257,12 @@
         <li>✓ Early Access</li>
         <li>✓ Unlimited Use</li>
       </ul>
-      <button class="plan-btn" onclick="openCheckout('Lifetime','$80')">GET ACCESS</button>
+      <button class="plan-btn" onclick="goCheckout('Lifetime','80','0.00144')">GET ACCESS</button>
     </div>
   </div>
 </div>
 
-<!-- CHECKOUT MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeCheckout()"></div>
-<div class="modal" id="checkoutModal">
-  <div class="modal-header">
-    <div class="modal-label">// SECURE CHECKOUT</div>
-    <button class="modal-close" onclick="closeCheckout()">✕</button>
-  </div>
-  <div class="modal-plan" id="modalPlan">Pro Monthly — $25</div>
-  <div class="modal-body">
-    <div class="form-row">
-      <div class="form-group">
-        <label>FIRST NAME</label>
-        <input type="text" class="form-input" placeholder="John">
-      </div>
-      <div class="form-group">
-        <label>LAST NAME</label>
-        <input type="text" class="form-input" placeholder="Doe">
-      </div>
-    </div>
-    <div class="form-group">
-      <label>EMAIL ADDRESS</label>
-      <input type="email" class="form-input" placeholder="you@email.com">
-    </div>
-    <div class="form-group">
-      <label>CARD NUMBER</label>
-      <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" id="cardNum">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>EXPIRY</label>
-        <input type="text" class="form-input" placeholder="MM/YY" maxlength="5" id="cardExp">
-      </div>
-      <div class="form-group">
-        <label>CVV</label>
-        <input type="text" class="form-input" placeholder="123" maxlength="3">
-      </div>
-    </div>
-    <div class="secure-note">🔒 &nbsp;Secured & encrypted — your data is safe</div>
-    <button class="checkout-btn" onclick="submitCheckout()">
-      <span id="checkoutBtnText">COMPLETE PURCHASE</span>
-    </button>
-    <div class="checkout-msg" id="checkoutMsg"></div>
-  </div>
-</div>
+
 
 <footer>
   <div class="logo">NEX<span>US</span></div>
@@ -379,39 +315,9 @@
     el.querySelector('span').textContent = item.classList.contains('open') ? '−' : '+';
   }
 
-  function openCheckout(plan, price) {
-    document.getElementById('modalPlan').textContent = plan + ' — ' + price;
-    document.getElementById('checkoutMsg').textContent = '';
-    document.getElementById('checkoutMsg').className = 'checkout-msg';
-    document.getElementById('checkoutBtnText').textContent = 'COMPLETE PURCHASE';
-    document.getElementById('modalOverlay').classList.add('v');
-    document.getElementById('checkoutModal').classList.add('v');
-    document.body.style.overflow = 'hidden';
+  function goCheckout(name, eur, btc) {
+    window.location.href = 'checkout.html?name=' + encodeURIComponent(name) + '&eur=' + eur + '&btc=' + btc;
   }
-  function closeCheckout() {
-    document.getElementById('modalOverlay').classList.remove('v');
-    document.getElementById('checkoutModal').classList.remove('v');
-    document.body.style.overflow = '';
-  }
-  function submitCheckout() {
-    var btn = document.getElementById('checkoutBtnText');
-    var msg = document.getElementById('checkoutMsg');
-    btn.textContent = 'PROCESSING...';
-    setTimeout(function() {
-      btn.textContent = '✓ PAYMENT CONFIRMED';
-      msg.textContent = '> Your license key has been sent to your email.';
-      msg.className = 'checkout-msg ok';
-    }, 1800);
-  }
-  document.getElementById('cardNum').addEventListener('input', function(e) {
-    var v = e.target.value.replace(/\D/g,'').slice(0,16);
-    e.target.value = v.replace(/(\d{4})(?=\d)/g,'$1 ');
-  });
-  document.getElementById('cardExp').addEventListener('input', function(e) {
-    var v = e.target.value.replace(/\D/g,'').slice(0,4);
-    if(v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
-    e.target.value = v;
-  });
 </script>
 </body>
 </html>
